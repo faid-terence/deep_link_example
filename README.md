@@ -31,7 +31,7 @@ The example app demonstrates a typical event browsing experience:
 
 Users start at the home screen and navigate through the events list:
 
-![Events List](https://res.cloudinary.com/faid-terence/image/upload/v1751542527/Simulator_Screenshot_-_iPhone_16_Pro_-_2025-07-03_at_00.26.49_avuzmj.png)
+![Events List](https://res.cloudinary.com/faid-terence/image/upload/v1751543896/Simulator_Screenshot_-_iPhone_16_Pro_-_2025-07-03_at_13.58.01_z5m4kx.png)
 
 ### Deep Link Magic ✨
 
