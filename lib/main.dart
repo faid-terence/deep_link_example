@@ -39,7 +39,18 @@ final eventsProvider = Provider<List<Event>>((ref) {
       description:
           'Join us for the biggest Flutter event of the year with workshops, talks, and networking.',
       date: 'Aug 15, 2025',
-      location: 'San Francisco, CA',
+      location: 'Kigali, Rwanda',
+      imageUrl:
+          'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400',
+      category: 'Technology',
+    ),
+    Event(
+      id: 'flutter-summit-2025',
+      title: 'Flutter Summit 2025',
+      description:
+          'The ultimate Flutter summit featuring the latest updates, best practices, and community insights from Flutter experts worldwide.',
+      date: 'Jul 20, 2025',
+      location: 'Kigali Convention Centre, Rwanda',
       imageUrl:
           'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400',
       category: 'Technology',
@@ -50,7 +61,7 @@ final eventsProvider = Provider<List<Event>>((ref) {
       description:
           'Learn the fundamentals of design thinking and how to apply them in your projects.',
       date: 'Aug 22, 2025',
-      location: 'New York, NY',
+      location: 'Butare, Rwanda',
       imageUrl:
           'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400',
       category: 'Design',
@@ -61,7 +72,7 @@ final eventsProvider = Provider<List<Event>>((ref) {
       description:
           'Watch innovative startups pitch their ideas to investors and industry experts.',
       date: 'Sep 5, 2025',
-      location: 'Austin, TX',
+      location: 'Musanze, Rwanda',
       imageUrl:
           'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400',
       category: 'Business',
@@ -72,7 +83,7 @@ final eventsProvider = Provider<List<Event>>((ref) {
       description:
           'Explore the latest trends in AI and ML with industry leaders and researchers.',
       date: 'Sep 12, 2025',
-      location: 'Seattle, WA',
+      location: 'Rubavu, Rwanda',
       imageUrl:
           'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400',
       category: 'Technology',
@@ -83,7 +94,7 @@ final eventsProvider = Provider<List<Event>>((ref) {
       description:
           'Celebrate creativity with art exhibitions, live performances, and interactive workshops.',
       date: 'Sep 20, 2025',
-      location: 'Los Angeles, CA',
+      location: 'Nyanza, Rwanda',
       imageUrl:
           'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400',
       category: 'Arts',
@@ -577,7 +588,47 @@ class EventDetailsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final events = ref.watch(eventsProvider);
-    final event = events.firstWhere((e) => e.id == eventId);
+    // Find event by ID or by title (converted to slug format)
+    final event = events
+        .where((e) => e.id == eventId || _titleToSlug(e.title) == eventId)
+        .firstOrNull;
+
+    if (event == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Event Not Found'),
+        ),
+        body: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.event_busy,
+                size: 64,
+                color: Colors.grey,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Event Not Found',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'The event you\'re looking for doesn\'t exist.',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       body: CustomScrollView(
@@ -758,5 +809,15 @@ class EventDetailsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  // Helper function to convert title to slug format
+  String _titleToSlug(String title) {
+    return title
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^\w\s-]'), '') // Remove special characters
+        .replaceAll(RegExp(r'\s+'), '-') // Replace spaces with hyphens
+        .replaceAll(RegExp(r'-+'), '-') // Replace multiple hyphens with single
+        .replaceAll(RegExp(r'^-|-$'), ''); // Remove leading/trailing hyphens
   }
 }
